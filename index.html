@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kiro Pro Max — Akses 1 Bulan</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Manrope:wght@400;500;700;800;900&display=swap');
+
+  :root{
+    --bg: #0a0a0f;
+    --bg-2: #111116;
+    --panel: #15151d;
+    --line: #27212f;
+    --violet: #8b5cf6;
+    --violet-dim: #5b3a9e;
+    --violet-glow: rgba(139,92,246,0.35);
+    --ink: #ecebf3;
+    --ink-dim: #9a95ab;
+    --ink-faint: #5c576b;
+    --green: #34d399;
+    --amber: #f5b942;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(139,92,246,0.14), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 100% 10%, rgba(139,92,246,0.08), transparent 55%),
+      var(--bg);
+    color:var(--ink);
+    font-family:'Manrope', sans-serif;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .mono{font-family:'JetBrains Mono', monospace;}
+
+  a{color:inherit;}
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:22px 28px;
+    border-bottom:1px solid var(--line);
+  }
+  .brand{
+    display:flex; align-items:center; gap:10px;
+    font-weight:800; letter-spacing:0.01em; font-size:1.05rem;
+  }
+  .brand-dot{
+    width:9px; height:9px; border-radius:2px;
+    background:var(--violet);
+    box-shadow:0 0 12px var(--violet-glow);
+  }
+  .brand small{
+    display:block; font-family:'JetBrains Mono', monospace;
+    font-size:0.62rem; color:var(--ink-faint); letter-spacing:0.14em;
+    font-weight:500; margin-top:1px;
+  }
+  .status-pill{
+    font-family:'JetBrains Mono', monospace; font-size:0.68rem;
+    color:var(--green); border:1px solid rgba(52,211,153,0.35);
+    background:rgba(52,211,153,0.07);
+    padding:5px 10px; border-radius:20px;
+    display:flex; align-items:center; gap:6px;
+    letter-spacing:0.03em;
+  }
+  .status-pill i{
+    width:6px; height:6px; border-radius:50%; background:var(--green);
+    box-shadow:0 0 6px var(--green);
+    animation:pulse 1.8s infinite ease-in-out;
+  }
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.35;}}
+
+  /* ---------- hero ---------- */
+  .hero{
+    max-width:760px; margin:0 auto;
+    padding:64px 28px 24px;
+    text-align:center;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.72rem; letter-spacing:0.16em;
+    color:var(--violet); text-transform:uppercase;
+    margin-bottom:18px;
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .eyebrow::before, .eyebrow::after{
+    content:''; width:16px; height:1px; background:var(--violet-dim);
+  }
+  h1{
+    font-size:clamp(2.3rem, 7vw, 3.6rem);
+    font-weight:900; line-height:1.05; letter-spacing:-0.02em;
+    margin-bottom:16px;
+  }
+  h1 .accent{
+    background:linear-gradient(135deg, #b794f6, var(--violet) 55%, #6d28d9);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .hero p.sub{
+    color:var(--ink-dim); font-size:1.03rem; max-width:480px;
+    margin:0 auto; line-height:1.6;
+  }
+
+  /* terminal snippet as signature element */
+  .terminal{
+    margin:36px auto 0; max-width:560px;
+    background:var(--panel); border:1px solid var(--line);
+    border-radius:10px; overflow:hidden;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.6), 0 0 0 1px rgba(139,92,246,0.05);
+    text-align:left;
+  }
+  .terminal-head{
+    display:flex; align-items:center; gap:6px;
+    padding:10px 14px; border-bottom:1px solid var(--line);
+    background:rgba(255,255,255,0.015);
+  }
+  .terminal-head span{width:9px; height:9px; border-radius:50%; background:#3a3540;}
+  .terminal-head .label{
+    margin-left:8px; font-family:'JetBrains Mono', monospace;
+    font-size:0.7rem; color:var(--ink-faint);
+  }
+  .terminal-body{
+    padding:18px 20px; font-family:'JetBrains Mono', monospace;
+    font-size:0.82rem; line-height:1.85; color:#c9c4d8;
+  }
+  .terminal-body .c1{color:var(--green);}
+  .terminal-body .c2{color:var(--violet);}
+  .terminal-body .c3{color:var(--amber);}
+  .terminal-body .dim{color:var(--ink-faint);}
+  .cursor{
+    display:inline-block; width:7px; height:1em; background:var(--violet);
+    vertical-align:middle; margin-left:2px;
+    animation:blink 1s steps(1) infinite;
+  }
+  @keyframes blink{50%{opacity:0;}}
+
+  /* ---------- feature badges ---------- */
+  .badge-strip{
+    display:flex; justify-content:center; gap:12px; flex-wrap:wrap;
+    max-width:640px; margin:32px auto 0;
+  }
+  .badge{
+    display:flex; align-items:center; gap:8px;
+    background:var(--panel); border:1px solid var(--line);
+    padding:10px 16px; border-radius:10px;
+    font-size:0.82rem; font-weight:700; color:var(--ink);
+  }
+  .badge .ic{
+    width:20px; height:20px; border-radius:6px;
+    background:rgba(139,92,246,0.15); color:var(--violet);
+    display:flex; align-items:center; justify-content:center;
+    font-size:0.72rem; flex-shrink:0;
+  }
+
+  /* ---------- pricing / product ---------- */
+  .section{max-width:760px; margin:0 auto; padding:56px 28px;}
+  .card{
+    background:var(--panel); border:1px solid var(--line);
+    border-radius:16px; padding:34px;
+    position:relative; overflow:hidden;
+  }
+  .card::before{
+    content:''; position:absolute; top:-40%; right:-20%;
+    width:300px; height:300px; border-radius:50%;
+    background:radial-gradient(circle, rgba(139,92,246,0.16), transparent 70%);
+    pointer-events:none;
+  }
+  .plan-row{
+    display:flex; justify-content:space-between; align-items:flex-start;
+    flex-wrap:wrap; gap:20px; margin-bottom:26px;
+  }
+  .plan-name{font-size:1.3rem; font-weight:800; margin-bottom:6px;}
+  .plan-desc{color:var(--ink-dim); font-size:0.9rem; max-width:320px; line-height:1.55;}
+  .price{text-align:right;}
+  .price .amount{font-size:2.1rem; font-weight:900; letter-spacing:-0.02em;}
+  .price .period{color:var(--ink-faint); font-family:'JetBrains Mono',monospace; font-size:0.75rem; letter-spacing:0.05em;}
+
+  .feature-list{list-style:none; margin:22px 0 0; display:grid; gap:12px;}
+  .feature-list li{
+    display:flex; align-items:flex-start; gap:10px;
+    font-size:0.92rem; color:var(--ink);
+  }
+  .feature-list li::before{
+    content:'▹'; color:var(--violet); font-weight:800; margin-top:0.1em;
+  }
+
+  /* ---------- checkout flow ---------- */
+  .flow-steps{
+    display:flex; gap:0; margin:0 auto 8px; max-width:760px;
+    padding:0 28px;
+  }
+  .step{
+    flex:1; text-align:center; font-family:'JetBrains Mono', monospace;
+    font-size:0.68rem; letter-spacing:0.08em; color:var(--ink-faint);
+    padding-bottom:14px; border-bottom:2px solid var(--line);
+    position:relative; text-transform:uppercase;
+  }
+  .step.active{color:var(--violet); border-color:var(--violet);}
+  .step .n{display:block; font-size:0.9rem; margin-bottom:4px;}
+
+  .checkout-card{
+    background:var(--panel); border:1px solid var(--line); border-radius:16px;
+    padding:34px; max-width:760px; margin:24px auto 0;
+  }
+  .checkout-title{font-size:1.15rem; font-weight:800; margin-bottom:6px;}
+  .checkout-sub{color:var(--ink-dim); font-size:0.88rem; margin-bottom:26px;}
+
+  label{
+    display:block; font-family:'JetBrains Mono', monospace; font-size:0.72rem;
+    color:var(--ink-dim); letter-spacing:0.06em; margin-bottom:8px;
+    text-transform:uppercase;
+  }
+  input[type="email"]{
+    width:100%; background:var(--bg-2); border:1px solid var(--line);
+    color:var(--ink); padding:13px 14px; border-radius:8px;
+    font-family:'Manrope', sans-serif; font-size:0.95rem;
+    transition:border-color .15s ease, box-shadow .15s ease;
+  }
+  input[type="email"]:focus{
+    outline:none; border-color:var(--violet);
+    box-shadow:0 0 0 3px rgba(139,92,246,0.18);
+  }
+  input[type="email"]::placeholder{color:var(--ink-faint);}
+
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    width:100%; margin-top:18px;
+    background:linear-gradient(135deg, #a78bfa, var(--violet));
+    color:#0a0a0f; font-weight:800; font-size:0.95rem;
+    border:none; padding:14px 20px; border-radius:9px;
+    cursor:pointer; transition:transform .12s ease, box-shadow .12s ease;
+    box-shadow:0 8px 24px -8px rgba(139,92,246,0.55);
+  }
+  .btn:hover{transform:translateY(-1px); box-shadow:0 12px 28px -8px rgba(139,92,246,0.7);}
+  .btn:active{transform:translateY(0);}
+  .btn:disabled{opacity:0.4; cursor:not-allowed; box-shadow:none;}
+  .btn:focus-visible{outline:2px solid var(--violet); outline-offset:3px;}
+
+  .err{
+    color:#f87171; font-size:0.78rem; margin-top:8px;
+    font-family:'JetBrains Mono', monospace; min-height:1em;
+  }
+
+  /* ---------- QRIS panel ---------- */
+  .qris-panel{display:none;}
+  .qris-panel.show{display:block; animation:fadeUp .35s ease;}
+  @keyframes fadeUp{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);}}
+
+  .qris-box{
+    display:flex; gap:28px; align-items:center; flex-wrap:wrap;
+    padding-top:8px;
+  }
+  .qr-wrap{
+    background:#fff; padding:14px; border-radius:12px;
+    box-shadow:0 0 0 1px var(--line), 0 20px 40px -18px rgba(139,92,246,0.4);
+    flex-shrink:0;
+  }
+  #qrcode{width:196px; height:196px;}
+  #qrcode img{display:block; width:100%; height:100%;}
+
+  .qris-meta{flex:1; min-width:220px;}
+  .qris-meta .label-row{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:10px 0; border-bottom:1px solid var(--line);
+    font-size:0.88rem;
+  }
+  .qris-meta .label-row span:first-child{color:var(--ink-dim); font-size:0.78rem;}
+  .qris-meta .label-row span:last-child{font-weight:700;}
+  .qris-total{font-size:1.5rem; font-weight:900; color:var(--violet);}
+
+  .timer{
+    font-family:'JetBrains Mono', monospace; font-size:0.78rem;
+    color:var(--amber); margin-top:14px;
+    display:flex; align-items:center; gap:6px;
+  }
+
+  .confirm-row{margin-top:22px; display:flex; gap:12px; flex-wrap:wrap;}
+  .btn-secondary{
+    background:transparent; border:1px solid var(--line); color:var(--ink-dim);
+    flex:1; min-width:140px;
+  }
+  .btn-secondary:hover{border-color:var(--violet); color:var(--ink); transform:none; box-shadow:none;}
+
+  /* ---------- success ---------- */
+  .success-panel{display:none; text-align:center; padding:20px 8px 4px;}
+  .success-panel.show{display:block; animation:fadeUp .4s ease;}
+  .success-icon{
+    width:56px; height:56px; border-radius:50%;
+    background:rgba(52,211,153,0.12); border:1px solid rgba(52,211,153,0.4);
+    display:flex; align-items:center; justify-content:center;
+    margin:0 auto 18px; font-size:1.4rem; color:var(--green);
+  }
+  .success-panel h3{font-size:1.2rem; margin-bottom:8px;}
+  .success-panel p{color:var(--ink-dim); font-size:0.9rem; line-height:1.6; max-width:380px; margin:0 auto;}
+  .success-email{
+    display:inline-block; margin-top:14px; padding:8px 14px;
+    background:var(--bg-2); border:1px solid var(--line); border-radius:8px;
+    font-family:'JetBrains Mono', monospace; font-size:0.82rem; color:var(--violet);
+  }
+  .btn-whatsapp{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    width:100%; max-width:340px; margin:22px auto 0;
+    background:#25D366; color:#06210f; font-weight:800; font-size:0.92rem;
+    border:none; padding:13px 18px; border-radius:9px;
+    text-decoration:none; cursor:pointer;
+    box-shadow:0 8px 22px -8px rgba(37,211,102,0.55);
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .btn-whatsapp:hover{transform:translateY(-1px); box-shadow:0 12px 26px -8px rgba(37,211,102,0.7);}
+  .whatsapp-hint{
+    color:var(--ink-faint); font-size:0.76rem; margin-top:10px;
+    max-width:340px; margin-left:auto; margin-right:auto; line-height:1.5;
+  }
+
+  /* ---------- footer / admin ---------- */
+  .footer{
+    max-width:760px; margin:0 auto; padding:40px 28px 60px;
+    text-align:center; color:var(--ink-faint); font-size:0.8rem;
+    border-top:1px solid var(--line); margin-top:20px;
+  }
+  .footer .admin-link{
+    display:inline-flex; align-items:center; gap:6px; margin-top:10px;
+    color:var(--green); font-family:'JetBrains Mono', monospace; font-size:0.85rem;
+    text-decoration:none; border:1px solid rgba(52,211,153,0.35);
+    background:rgba(52,211,153,0.07);
+    padding:9px 16px; border-radius:20px;
+    transition:transform .12s ease, border-color .12s ease;
+  }
+  .footer .admin-link:hover{border-color:var(--green); transform:translateY(-1px);}
+
+  @media (max-width:520px){
+    .qris-box{flex-direction:column; align-items:center; text-align:center;}
+    .qris-meta .label-row{justify-content:space-between;}
+    .price{text-align:left;}
+    .plan-row{flex-direction:column;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="brand">
+      <span class="brand-dot"></span>
+      <div>
+        KIRO PRO MAX
+        <small>AI ACCESS SYSTEM</small>
+      </div>
+    </div>
+    <div class="status-pill"><i></i>server online</div>
+  </div>
+
+  <section class="hero">
+    <div class="eyebrow">akses premium · 1 bulan</div>
+    <h1>Kiro Pro Max,<br><span class="accent">langsung ke email-mu.</span></h1>
+    <p class="sub">Bayar sekali scan, produk dikirim otomatis ke email yang kamu daftarkan. Tidak ada langkah ribet, tidak ada chat admin dulu.</p>
+
+    <div class="badge-strip">
+      <div class="badge"><span class="ic">G</span>Login via Gmail</div>
+      <div class="badge"><span class="ic">✓</span>Garansi 2 Minggu</div>
+      <div class="badge"><span class="ic">⚡</span>5000 Credits</div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:8px;">
+    <div class="card">
+      <div class="plan-row">
+        <div>
+          <div class="plan-name">Kiro Pro Max — 1 Bulan</div>
+          <div class="plan-desc">Akses penuh selama 30 hari. Produk dikirim ke email setelah pembayaran QRIS terkonfirmasi.</div>
+        </div>
+        <div class="price">
+          <div class="amount">Rp125.000</div>
+          <div class="period">/ 30 hari</div>
+        </div>
+      </div>
+      <ul class="feature-list">
+        <li>Akses penuh Kiro Pro Max selama 1 bulan</li>
+        <li>Login mudah via akun Gmail — tanpa daftar ulang</li>
+        <li>5000 Credits langsung aktif setelah akses diterima</li>
+        <li>Garansi 2 minggu — kendala teknis dibantu penuh</li>
+        <li>Pengiriman otomatis ke email setelah bayar</li>
+        <li>Pembayaran via QRIS — semua e-wallet & m-banking</li>
+        <li>Nominal sudah terkunci, tinggal scan & konfirmasi</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="flow-steps">
+    <div class="step active" id="step-1"><span class="n">01</span>Email</div>
+    <div class="step" id="step-2"><span class="n">02</span>Scan QRIS</div>
+    <div class="step" id="step-3"><span class="n">03</span>Terkirim</div>
+  </div>
+
+  <section class="section" style="padding-top:16px;">
+
+    <!-- STEP 1: EMAIL -->
+    <div class="checkout-card" id="panel-email">
+      <div class="checkout-title">Masukkan email tujuan</div>
+      <div class="checkout-sub">Kiro Pro Max akan dikirim ke alamat ini segera setelah pembayaran terkonfirmasi.</div>
+      <label for="email">Alamat email</label>
+      <input type="email" id="email" placeholder="nama@email.com" autocomplete="email">
+      <div class="err" id="email-err"></div>
+      <button class="btn" id="btn-continue">Lanjut ke pembayaran →</button>
+    </div>
+
+    <!-- STEP 2: QRIS -->
+    <div class="checkout-card qris-panel" id="panel-qris">
+      <div class="checkout-title">Scan & bayar</div>
+      <div class="checkout-sub">Nominal sudah terkunci di kode QR — buka aplikasi e-wallet atau m-banking, lalu scan.</div>
+
+      <div class="qris-box">
+        <div class="qr-wrap"><div id="qrcode"></div></div>
+        <div class="qris-meta">
+          <div class="label-row"><span>Produk</span><span>Kiro Pro Max</span></div>
+          <div class="label-row"><span>Durasi</span><span>1 Bulan</span></div>
+          <div class="label-row"><span>Kirim ke</span><span id="meta-email">—</span></div>
+          <div class="label-row"><span>Total bayar</span><span class="qris-total">Rp125.000</span></div>
+          <div class="timer">⏱ <span id="timer-text">berlaku 15:00 menit</span></div>
+        </div>
+      </div>
+
+      <div class="confirm-row">
+        <button class="btn btn-secondary" id="btn-back">← Ubah email</button>
+        <button class="btn" id="btn-paid">Saya sudah bayar</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: SUCCESS -->
+    <div class="checkout-card success-panel" id="panel-success">
+      <div class="success-icon">✓</div>
+      <h3>Pembayaran diterima</h3>
+      <p>Kiro Pro Max akan dikirim otomatis ke email kamu dalam beberapa menit. Cek folder spam kalau belum masuk dalam 10 menit.</p>
+      <div class="success-email" id="success-email">—</div>
+      <br>
+      <a class="btn-whatsapp" id="btn-whatsapp-confirm" href="https://wa.me/6283849291055" target="_blank" rel="noopener">
+        🟢 Kirim Konfirmasi & Bukti Bayar
+      </a>
+      <div class="whatsapp-hint">Klik untuk buka WhatsApp, lalu lampirkan screenshot bukti transfer di chat supaya proses pengiriman lebih cepat.</div>
+    </div>
+
+  </section>
+
+  <div class="footer">
+    <div>Butuh bantuan seputar pembayaran atau pengiriman produk?</div>
+    <a class="admin-link" href="https://wa.me/6283849291055" target="_blank" rel="noopener">🟢 Chat WhatsApp Support</a>
+  </div>
+
+<script>
+  // QRIS EMV payload — dynamic, amount locked at Rp125.000, CRC16/CCITT recalculated
+  const QRIS_PAYLOAD = "00020101021226690021ID.CO.BANKMANDIRI.WWW01189360000801977280790211719772807940303UMI51440014ID.CO.QRIS.WWW0215ID10264695005770303UMI52045815530336054061250005802ID5907Digital6012Medan (Kota)61052021662070703A016304FC73";
+
+  const emailInput = document.getElementById('email');
+  const emailErr = document.getElementById('email-err');
+  const btnContinue = document.getElementById('btn-continue');
+  const btnBack = document.getElementById('btn-back');
+  const btnPaid = document.getElementById('btn-paid');
+
+  const panelEmail = document.getElementById('panel-email');
+  const panelQris = document.getElementById('panel-qris');
+  const panelSuccess = document.getElementById('panel-success');
+
+  const step1 = document.getElementById('step-1');
+  const step2 = document.getElementById('step-2');
+  const step3 = document.getElementById('step-3');
+
+  let qrGenerated = false;
+  let timerInterval = null;
+
+  function isValidEmail(v){
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  }
+
+  function generateQR(){
+    if(qrGenerated) return;
+    new QRCode(document.getElementById('qrcode'), {
+      text: QRIS_PAYLOAD,
+      width: 196,
+      height: 196,
+      colorDark: "#0a0a0f",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.M
+    });
+    qrGenerated = true;
+  }
+
+  function startTimer(seconds){
+    clearInterval(timerInterval);
+    const timerText = document.getElementById('timer-text');
+    function tick(){
+      const m = Math.floor(seconds/60).toString().padStart(2,'0');
+      const s = (seconds%60).toString().padStart(2,'0');
+      timerText.textContent = `berlaku ${m}:${s} menit`;
+      if(seconds <= 0){
+        clearInterval(timerInterval);
+        timerText.textContent = 'kode kedaluwarsa — kembali & ulangi';
+        timerText.parentElement.style.color = '#f87171';
+      }
+      seconds--;
+    }
+    tick();
+    timerInterval = setInterval(tick, 1000);
+  }
+
+  btnContinue.addEventListener('click', () => {
+    const val = emailInput.value.trim();
+    if(!isValidEmail(val)){
+      emailErr.textContent = 'Masukkan alamat email yang valid.';
+      emailInput.focus();
+      return;
+    }
+    emailErr.textContent = '';
+
+    document.getElementById('meta-email').textContent = val;
+    document.getElementById('success-email').textContent = val;
+
+    panelEmail.style.display = 'none';
+    panelQris.classList.add('show');
+
+    step1.classList.remove('active');
+    step2.classList.add('active');
+
+    generateQR();
+    startTimer(15*60);
+  });
+
+  btnBack.addEventListener('click', () => {
+    panelQris.classList.remove('show');
+    panelEmail.style.display = 'block';
+    step2.classList.remove('active');
+    step1.classList.add('active');
+    clearInterval(timerInterval);
+  });
+
+  btnPaid.addEventListener('click', () => {
+    panelQris.classList.remove('show');
+    panelSuccess.classList.add('show');
+    step2.classList.remove('active');
+    step3.classList.add('active');
+    clearInterval(timerInterval);
+
+    const emailVal = emailInput.value.trim();
+    const waMessage = `Halo, saya sudah bayar Kiro Pro Max (1 Bulan - Rp125.000).%0AEmail tujuan: ${encodeURIComponent(emailVal)}%0ABerikut saya lampirkan bukti pembayarannya.`;
+    document.getElementById('btn-whatsapp-confirm').href = `https://wa.me/6283849291055?text=${waMessage}`;
+  });
+
+  emailInput.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter') btnContinue.click();
+  });
+</script>
+
+</body>
+</html>
